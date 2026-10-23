@@ -21,9 +21,9 @@ Technical documentation and hardware architecture specifications for the **ADP20
 
 ## 🗂️ Documentation Structure
 
+The repository is broken down into modular technical specifications:
+
 * 📑 **[Introduction & Module Family](./01_introduction.md)** — Core terminology and hardware family matrix.
 * 🔀 **[System Architecture](./02_architecture.md)** — DSP clustering and memory mapping.
 * 🛠️ **[ADMPRO Interface Spec](./03_adm_interface.md)** — FPGA registers and synchronization.
-* 🔌 **[Connector & Pinout Maps](./04_connectors.md)** — Pinout tables for `SYNX` and `PIOX`.
-
-*Note: For the full markdown content including the complete external interface table and software ecosystem details, please refer to the documentation structure in the repository.*
+* 🔌 **[Connector & Pinout Maps](./04_connectors.md)** — Pinout tables for SYNX and PIOX.
