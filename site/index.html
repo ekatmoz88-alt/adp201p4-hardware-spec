@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bilingual technical documentation for the ADP201P4 digital signal processing and data acquisition board.">
+<title>ADP201P4 Hardware Specification</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1420;--panel:#152338;--line:#2c405a;--text:#edf4fc;--muted:#a8bad0;--accent:#80c9ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(130deg,#10243a 0,#0c1420 55%);color:var(--text);font:16px/1.65 Inter,system-ui,sans-serif}
+main{max-width:1100px;margin:auto;padding:56px 24px 80px}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;font-weight:700}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.05;letter-spacing:-.045em;margin:16px 0}h2{font-size:1.35rem;margin:0 0 12px}p{color:var(--muted);max-width:820px}
+.hero{padding:34px 0 42px;border-bottom:1px solid var(--line)}.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:26px 0}.metric,.doc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.metric strong{display:block;font-size:1.55rem;color:var(--accent)}.metric span{font-size:.9rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:14px;margin:22px 0}.doc p{font-size:.93rem}.doc a,.btn{color:var(--accent);text-decoration:none}.doc a:hover{text-decoration:underline}
+.switch{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{display:inline-block;border:1px solid #41658a;border-radius:9px;padding:8px 13px}.section{padding-top:36px}
+footer{border-top:1px solid var(--line);margin-top:46px;padding-top:20px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body><main>
+<section class="hero">
+<div class="eyebrow">Hardware documentation · Bilingual reference</div>
+<h1>ADP201P4<br>Hardware Specification</h1>
+<p>Technical documentation for a PCI carrier board designed for digital signal processing and data acquisition. The documentation is organized into modular specifications covering the processing cluster, system architecture, ADMPRO interface and external connectors.</p>
+<div class="switch"><a class="btn" href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec">Source repository ↗</a><a class="btn" href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/README.ru.md">Русская версия ↗</a></div>
+</section>
+<section class="specs">
+<div class="metric"><strong>4 × DSP</strong><span>ADSP-TS201S TigerSHARC processors</span></div>
+<div class="metric"><strong>500 / 600 MHz</strong><span>Processor clock variants documented in the source</span></div>
+<div class="metric"><strong>PCI</strong><span>Carrier-board host interface</span></div>
+<div class="metric"><strong>EN / RU</strong><span>English and Russian documentation</span></div>
+</section>
+<section class="section">
+<h2>Documentation modules</h2>
+<div class="grid">
+<article class="doc"><h2>01 · Introduction</h2><p>Terminology, module family and product overview.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/01_introduction.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/01_introduction.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>02 · System architecture</h2><p>DSP cluster organization, memory map and data paths.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/02_architecture.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/02_architecture.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>03 · ADMPRO interface</h2><p>Interface specification and FPGA-related register documentation.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/03_adm_interface.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/03_adm_interface.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>04 · Connectors</h2><p>External connector and pinout reference.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/04_connectors.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/04_connectors.ru.md">Русский ↗</a></article>
+</div>
+</section>
+<footer>Documentation portal · Content is based on the public repository. Verify publication authorization for technical details before wider distribution.</footer>
+</main></body></html>
