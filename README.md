@@ -6,7 +6,7 @@ Source-based technical documentation for the ADP201P4 signal-processing module. 
 
 ## Module overview
 
-ADP201P4 is a PCI-based signal-processing module built around four Analog Devices **ADSP-TS201S (TigerSHARC)** processors. The manual describes its use for signal acquisition and digital signal processing, connection of ADM daughter modules, and cooperation with other ADP201 modules.
+ADP201P4 is a PCI-based signal-processing module built around four Analog Devices **ADSP-TS201S (TigerSHARC)** processors. The manual describes its use for signal acquisition and digital signal processing, connection of mezzanine submodules through the **ADMPRO** interface, and cooperation with other ADP201 modules.
 
 ## Verified hardware facts
 
@@ -16,7 +16,7 @@ ADP201P4 is a PCI-based signal-processing module built around four Analog Device
 - **Flash:** 4 MB is listed in the module technical-data table; the processor-node description gives a 2–4 MB range. The exact configuration should be checked against the particular board.
 - **Host interface:** 64-bit PCI, 66 MHz.
 - **External TigerSHARC links:** four, one from each processor.
-- **ADM FPGA:** Xilinx Spartan-3 XC3S400-5FG456 or XC3S1500-5FG456.
+- **ADMPRO / ADM interface:** controlled by a Xilinx Spartan-3 FPGA, XC3S400-5FG456 or XC3S1500-5FG456.
 - **PIOX:** 16-bit LVTTL or 8-bit LVDS data interface, depending on board implementation.
 
 ## Documentation modules
