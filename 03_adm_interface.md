@@ -1,67 +1,54 @@
-# Интерфейс ADMPRO и ПЛИС ADM
+# ADM Interface and ADM FPGA
 
-ПЛИС ADM обеспечивает аппаратное управление мезонинным субмодулем, приём или передачу цифрового потока данных, а также организацию межмодульной синхронизации. 
+The ADM FPGA controls the ADM submodule, supports data transfer to and from the submodule, and provides inter-module synchronization functions.
 
-В модуле **ADP201P4** в качестве центрального контроллера интерфейса ADM применяется микросхема семейства **Spartan-3** фирмы **XILINX** в корпусе FG456:
-* **XC3S400-5FG456** — базовый вариант исполнения платы;
-* **XC3S1500-5FG456** — расширенный вариант исполнения платы.
+## FPGA variants
 
-Фактическое функционирование и алгоритмы обработки сигналов внутри ПЛИС полностью определяются загружаемой прошивкой. Конфигурирование (загрузка) матрицы может производиться как со стороны управляющего HOST-компьютера, так и непосредственно из сигнального процессора **P1**.
+The ADP201P4 manual lists two Xilinx Spartan-3 devices:
 
-![Структурная схема аппаратной части интерфейса ADM](../images/adm_hardware.png)
+- XC3S400-5FG456 — baseline variant;
+- XC3S1500-5FG456 — expanded variant.
 
-## Архитектура регистров и тетрад
+The loaded FPGA configuration determines the implemented functions. The manual states that configuration can be loaded from the HOST computer or from processor P1.
 
-Внутренняя логическая структура ПЛИС разделена на специализированные управляющие блоки — **тетрады** (функциональные группы из четырех регистров). В базовой конфигурации выделяются две ключевые тетрады:
-1. **MAIN** — отвечает за управление общими системными ресурсами интерфейса ADMPRO, включая обработку запросов аппаратных прерываний (`IRQ`) и запросов прямого доступа к памяти (`DMA`).
-2. **ADMxxx** — реализует логику непосредственного взаимодействия со спецификой установленного субмодуля (АЦП/ЦАП).
+## Register groups
 
-Регистровая структура ПЛИС ADM отображается в общее адресное пространство процессорного кластера и доступна через шину процессора **P2** по сигналу строба **MS1**. 
+The ADM FPGA contains functional register groups called **tetrads**. The manual identifies two groups:
 
-### Таблица — Список регистров тетрады ПЛИС ADM
+- **MAIN:** manages shared ADM interface resources, including interrupt requests (IRQ) and DMA requests (DRQ).
+- **ADMxxx:** provides control for the installed submodule.
 
-| Номер регистра | Обозначение | Функциональное описание |
-| :---: | :--- | :--- |
-| **0** | `STATUS` | Регистр состояния тетрады |
-| **1** | `DATA` | Регистр обмена данными |
-| **2** | `IND_ADR` | Регистр косвенного адреса |
-| **3** | `IND_DATA` | Регистр косвенных данных |
+The ADM FPGA registers are located in the address space selected by strobe MS1 of processor P2. The manual lists the following tetrad registers:
 
----
+| Register index | Name | Description in the manual |
+|---:|---|---|
+| 0 | STATUS | Status register |
+| 1 | DATA | Data register |
+| 2 | IND_ADR | Indirect address register |
+| 3 | IND_DATA | Indirect data register |
 
-## Функциональные подсистемы и узлы
+## Start synchronization
 
-### 1. Узел стартовой синхронизации
-Предназначен для организации гибкого запуска процессов сбора или выдачи сигналов. Узел включает в себя два компаратора и мультиплексор, обеспечивая ввод двух аналоговых сигналов, которые могут аппаратно интерпретироваться системой как внешняя тактовая частота (`ENCODE`) или как сигнал внешнего старта (`START`). 
+The start-synchronization unit contains two comparators and a multiplexer. The multiplexer selects the signal sources for the comparator inputs:
 
-Мультиплексор программно коммутирует комбинации физических источников, поступающих на входы компараторов, в соответствии со следующей схемой:
+| Mode | Comparator 0 | Comparator 1 |
+|---:|---|---|
+| 0 | EXTST | SDX |
+| 1 | CH0 | SDX |
+| 2 | CH1 | SDX |
+| 3 | CH0 | CH0 |
 
-### Таблица — Источники сигналов для компараторов стартовой синхронизации
+The manual describes EXTST as an external-start input on the submodule, CH0 and CH1 as ADC channel signals, and SDX as the signal from the SDX connector. The physical meaning and source of EXTST, CH0 and CH1 can differ between ADM submodules.
 
-| Режим (N) | Компаратор 0 | Компаратор 1 |
-| :---: | :--- | :--- |
-| **0** | `EXTST` (Вход внешнего старта на субмодуле) | `SDX` (Сигнал с внешнего разъёма SDX) |
-| **1** | `CH0` (Аналоговый канал АЦП 0) | `SDX` |
-| **2** | `CH1` (Аналоговый канал АЦП 1) | `SDX` |
-| **3** | `CH0` | `CH0` |
+## Programmable voltage source
 
-*Примечание: Физическое формирование и уровни сигналов `EXTST`, `CH0` и `CH1` зависят от конкретной модели установленного субмодуля ADM.*
+The programmable voltage source provides eight channels. Channels 1 and 2 set the thresholds for comparators 0 and 1. The remaining channels are passed to the submodule; their use depends on that submodule. Jumpers JE0 and JE1 can route channels 1 and 2 to the submodule instead of the comparators.
 
-### 2. Источник программируемых напряжений (ИПН)
-Интегрированный ИПН формирует **восемь независимых опорных уровней** напряжения. 
-* **Канал 1** используется для задания порога срабатывания **Компаратора 0**.
-* **Канал 2** используется для задания порога срабатывания **Компаратора 1**.
-* **Каналы 3–8** транслируются напрямую на разъем субмодуля (их функционал определяется архитектурой конкретной дочерней платы). 
+## PIOX digital I/O
 
-*Конфигурация:* С помощью установки механических перемычек **JE0** и **JE1** каналы 1 и 2 ИПН могут быть перекоммутированы с компараторов напрямую на субмодуль, если этого требует специфика его схемотехники.
+The PIOX connector provides a digital I/O port. The ADM FPGA must be configured before the port can be used. The electrical mode depends on the installed buffer:
 
-### 3. Цифровой порт ввода-вывода PIOX
-Служит для непосредственного программного управления внешним оборудованием по произвольным протоколам. Все физические линии порта заведены на ПЛИС ADM через согласующие буферные микросхемы. Тип установленного буфера определяет один из двух электрических режимов работы порта:
+- **LVTTL:** buffer 74ALVCH16245DGG; two independently configurable 8-bit data buses, PIO[15..8] and PIO[7..0]. The documented control signals are PIO_RD, PIO_WR, ACK_WR and ACK_RD.
+- **LVDS:** buffer SN65LVDM1677DGG; six differential data pairs PIO_P[7..0] / PIO_N[7..0] are not described: the manual specifies eight differential data pairs? The connector pin table lists PIO_P[7..0] and PIO_N[7..0] as eight numbered pairs, plus differential input CIN_P/CIN_N and output COUT_P/COUT_N. PIO_WR and ACK_RD remain LVTTL signals through a 74ALVCH16245DGG buffer.
 
-1. **Режим LVTTL (Буфер 74ALVCH16245DGG):** Однополярный режим. Доступны две независимые 8-разрядные шины данных `PIO[15..8]` и `PIO[7..0]`, конфигурируемые на ввод или вывод. В стандартной прошивке назначены следующие управляющие сигналы:
-   * `PIO_WR` — строб записи (выходной сигнал);
-   * `PIO_RD` — строб чтения (выходной сигнал);
-   * `ACK_WR` — подтверждение выполнения записи внешним устройством (вход);
-   * `ACK_RD` — подтверждение выполнения чтения внешним устройством (вход).
-2. **Режим LVDS (Буфер SN65LVDM1677DGG):** Дифференциальный высокоскоростной режим. Порт перестраивается на одну 8-разрядную дифференциальную шину данных, один входной и один выходной дифференциальный сигнал управления LVDS. Также доступны по одному входному/выходному сигналу управления стандарта LVTTL для реализации служебных протоколов квитирования.
-
+Refer to the connector page for the source-based pin assignments. The ADM manual also notes that FPGA functionality depends on the loaded firmware; do not assume every optional capability is present in a standard configuration.
