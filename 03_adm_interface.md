@@ -46,9 +46,30 @@ The programmable voltage source provides eight channels. Channels 1 and 2 set th
 
 ## PIOX digital I/O
 
-The PIOX connector provides a digital I/O port. The ADM FPGA must be configured before the port can be used. The electrical mode depends on the installed buffer:
+The PIOX connector provides a configurable digital I/O port. The electrical mode depends on the installed buffer and the loaded ADM FPGA configuration.
 
-- **LVTTL:** buffer 74ALVCH16245DGG; two independently configurable 8-bit data buses, PIO[15..8] and PIO[7..0]. The documented control signals are PIO_RD, PIO_WR, ACK_WR and ACK_RD.
-- **LVDS:** buffer SN65LVDM1677DGG; eight differential data pairs labelled PIO_P[7..0] and PIO_N[7..0], plus a differential input (CIN_P/CIN_N) and output (COUT_P/COUT_N). PIO_WR and ACK_RD remain LVTTL signals through a 74ALVCH16245DGG buffer.
+### LVTTL mode — 74ALVCH16245DGG
 
-Refer to the connector page for the source-based pin assignments. The ADM manual also notes that FPGA functionality depends on the loaded firmware; do not assume every optional capability is present in a standard configuration.
+LVTTL is a single-ended signaling mode. The port exposes two independent 8-bit data buses, `PIO[15..8]` and `PIO[7..0]`, each configurable for input or output.
+
+The standard firmware assigns these control signals:
+
+| Signal | Direction | Function |
+|---|---|---|
+| `PIO_WR` | Output | Write strobe |
+| `PIO_RD` | Output | Read strobe |
+| `ACK_WR` | Input | Acknowledgement that the external device has completed the write |
+| `ACK_RD` | Input | Acknowledgement that the external device has completed the read |
+
+### LVDS mode — SN65LVDM1677DGG
+
+LVDS is a differential high-speed signaling mode. The port is reconfigured as:
+
+- one 8-bit differential data bus;
+- one differential LVDS control input;
+- one differential LVDS control output;
+- one LVTTL control input and one LVTTL control output, available for auxiliary handshake protocols.
+
+The connector pin table identifies the differential data lines as `PIO_P[7..0]` and `PIO_N[7..0]`, the differential control input as `CIN_P/CIN_N`, and the differential control output as `COUT_P/COUT_N`. The LVTTL control lines are `ACK_RD` (input) and `PIO_WR` (output).
+
+Refer to the connector page for the pin assignments. Signal roles and direction are described for the documented standard firmware; verify the actual loaded FPGA configuration before integrating a specific ADM submodule.
