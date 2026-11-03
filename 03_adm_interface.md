@@ -1,6 +1,6 @@
-# ADM Interface and ADM FPGA
+# ADMPRO Interface and ADM FPGA
 
-The ADM FPGA controls the ADM submodule, supports data transfer to and from the submodule, and provides inter-module synchronization functions.
+The ADM FPGA provides hardware control of the mezzanine ADM submodule, supports digital data input and output, and implements inter-module synchronization. The actual functions and signal-processing logic depend on the FPGA configuration loaded at runtime.
 
 ## FPGA variants
 
@@ -11,11 +11,11 @@ The ADP201P4 manual lists two Xilinx Spartan-3 devices:
 
 The loaded FPGA configuration determines the implemented functions. The manual states that configuration can be loaded from the HOST computer or from processor P1.
 
-## Register groups
+## Register architecture and tetrads
 
-The ADM FPGA contains functional register groups called **tetrads**. The manual identifies two groups:
+The ADM FPGA logic is divided into functional register groups called **tetrads** (groups of four registers). The manual identifies two groups:
 
-- **MAIN:** manages shared ADM interface resources, including interrupt requests (IRQ) and DMA requests (DRQ).
+- **MAIN:** manages shared ADM interface resources, including hardware interrupt requests (IRQ) and direct memory access (DMA) requests.
 - **ADMxxx:** provides control for the installed submodule.
 
 The ADM FPGA registers are located in the address space selected by strobe MS1 of processor P2. The manual lists the following tetrad registers:
@@ -27,7 +27,9 @@ The ADM FPGA registers are located in the address space selected by strobe MS1 o
 | 2 | IND_ADR | Indirect address register |
 | 3 | IND_DATA | Indirect data register |
 
-## Start synchronization
+## Functional subsystems
+
+### Start synchronization
 
 The start-synchronization unit contains two comparators and a multiplexer. The multiplexer selects the signal sources for the comparator inputs:
 
@@ -40,11 +42,11 @@ The start-synchronization unit contains two comparators and a multiplexer. The m
 
 The manual describes EXTST as an external-start input on the submodule, CH0 and CH1 as ADC channel signals, and SDX as the signal from the SDX connector. The physical meaning and source of EXTST, CH0 and CH1 can differ between ADM submodules.
 
-## Programmable voltage source
+### Programmable voltage source
 
 The programmable voltage source provides eight channels. Channels 1 and 2 set the thresholds for comparators 0 and 1. The remaining channels are passed to the submodule; their use depends on that submodule. Jumpers JE0 and JE1 can route channels 1 and 2 to the submodule instead of the comparators.
 
-## PIOX digital I/O
+### PIOX digital I/O
 
 The PIOX connector provides a configurable digital I/O port. The electrical mode depends on the installed buffer and the loaded ADM FPGA configuration.
 
