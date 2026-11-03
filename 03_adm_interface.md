@@ -49,6 +49,6 @@ The programmable voltage source provides eight channels. Channels 1 and 2 set th
 The PIOX connector provides a digital I/O port. The ADM FPGA must be configured before the port can be used. The electrical mode depends on the installed buffer:
 
 - **LVTTL:** buffer 74ALVCH16245DGG; two independently configurable 8-bit data buses, PIO[15..8] and PIO[7..0]. The documented control signals are PIO_RD, PIO_WR, ACK_WR and ACK_RD.
-- **LVDS:** buffer SN65LVDM1677DGG; six differential data pairs PIO_P[7..0] / PIO_N[7..0] are not described: the manual specifies eight differential data pairs? The connector pin table lists PIO_P[7..0] and PIO_N[7..0] as eight numbered pairs, plus differential input CIN_P/CIN_N and output COUT_P/COUT_N. PIO_WR and ACK_RD remain LVTTL signals through a 74ALVCH16245DGG buffer.
+- **LVDS:** buffer SN65LVDM1677DGG; eight differential data pairs labelled PIO_P[7..0] and PIO_N[7..0], plus a differential input (CIN_P/CIN_N) and output (COUT_P/COUT_N). PIO_WR and ACK_RD remain LVTTL signals through a 74ALVCH16245DGG buffer.
 
 Refer to the connector page for the source-based pin assignments. The ADM manual also notes that FPGA functionality depends on the loaded firmware; do not assume every optional capability is present in a standard configuration.
