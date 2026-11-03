@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="color-scheme" content="dark"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Bilingual technical documentation for the ADP201P4 digital signal processing and data acquisition board.">
-<title>ADP201P4 Hardware Specification</title>
+<meta name="description" content="Bilingual, source-based technical documentation for the ADP201P4 signal-processing module.">
+<title>ADP201P4 | Technical Documentation</title>
 <style>
 :root{color-scheme:dark;--bg:#0c1420;--panel:#152338;--line:#2c405a;--text:#edf4fc;--muted:#a8bad0;--accent:#80c9ff}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(130deg,#10243a 0,#0c1420 55%);color:var(--text);font:16px/1.65 Inter,system-ui,sans-serif}
@@ -17,25 +17,25 @@ footer{border-top:1px solid var(--line);margin-top:46px;padding-top:20px;color:v
 </head>
 <body><main>
 <section class="hero">
-<div class="eyebrow">Hardware documentation · Bilingual reference</div>
-<h1>ADP201P4<br>Hardware Specification</h1>
-<p>Technical documentation for a PCI carrier board designed for digital signal processing and data acquisition. The documentation is organized into modular specifications covering the processing cluster, system architecture, ADMPRO interface and external connectors.</p>
+<div class="eyebrow">Source-based hardware documentation · EN / RU</div>
+<h1>ADP201P4<br>Technical Documentation</h1>
+<p>A structured reference to the ADP201P4 PCI signal-processing module, based on its technical description and operating manual. The pages cover the four-DSP subsystem, processor and FPGA connections, ADM interface, boot process, synchronization and external connectors.</p>
 <div class="switch"><a class="btn" href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec">Source repository ↗</a><a class="btn" href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/README.ru.md">Русская версия ↗</a></div>
 </section>
 <section class="specs">
 <div class="metric"><strong>4 × DSP</strong><span>ADSP-TS201S TigerSHARC processors</span></div>
-<div class="metric"><strong>500 / 600 MHz</strong><span>Processor clock variants documented in the source</span></div>
-<div class="metric"><strong>PCI</strong><span>Carrier-board host interface</span></div>
+<div class="metric"><strong>128 MB</strong><span>SDRAM per processor node</span></div>
+<div class="metric"><strong>PCI</strong><span>64-bit, 66 MHz host interface</span></div>
 <div class="metric"><strong>EN / RU</strong><span>English and Russian documentation</span></div>
 </section>
 <section class="section">
 <h2>Documentation modules</h2>
 <div class="grid">
-<article class="doc"><h2>01 · Introduction</h2><p>Terminology, module family and product overview.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/01_introduction.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/01_introduction.ru.md">Русский ↗</a></article>
-<article class="doc"><h2>02 · System architecture</h2><p>DSP cluster organization, memory map and data paths.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/02_architecture.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/02_architecture.ru.md">Русский ↗</a></article>
-<article class="doc"><h2>03 · ADMPRO interface</h2><p>Interface specification and FPGA-related register documentation.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/03_adm_interface.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/03_adm_interface.ru.md">Русский ↗</a></article>
-<article class="doc"><h2>04 · Connectors</h2><p>External connector and pinout reference.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/04_connectors.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/04_connectors.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>01 · Introduction</h2><p>Terminology, module family and verified product characteristics.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/01_introduction.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/01_introduction.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>02 · System architecture</h2><p>DSP nodes, HOST and ADM FPGA connections, memory, boot and synchronization.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/02_architecture.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/02_architecture.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>03 · ADM interface</h2><p>ADM FPGA, register groups, synchronization and digital I/O.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/03_adm_interface.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/03_adm_interface.ru.md">Русский ↗</a></article>
+<article class="doc"><h2>04 · Connectors</h2><p>SYNX, SDX, PIOX and external TigerSHARC link connectors.</p><a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/04_connectors.md">English ↗</a> · <a href="https://github.com/ekatmoz88-alt/adp201p4-hardware-spec/blob/main/04_connectors.ru.md">Русский ↗</a></article>
 </div>
 </section>
-<footer>Documentation portal · Content is based on the public repository. Verify publication authorization for technical details before wider distribution.</footer>
+<footer>Portfolio documentation reconstructed from the source manual. Optional configurations and firmware-dependent behavior are identified where applicable; consult the relevant board revision and companion specifications before hardware use.</footer>
 </main></body></html>
