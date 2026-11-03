@@ -1,20 +1,63 @@
-# System Architecture & Processing Cluster
+# ADP201P4 System Architecture
 
-The internal architecture of the **ADP201P4** module features a tightly coupled high-performance processing cluster integrated with high-speed local memories and custom FPGA-driven data routing paths.
+This page summarizes the architecture described in sections 2.3–2.5 and 2.8 of the ADP201P4 operating manual.
 
-## 🖥️ DSP Processing Cluster & Memory Mapping
+## DSP subsystem
 
-The board hosts **four independent ADSP-TS201S (TigerSHARC)** processors running at **500 / 600 MHz**, organized into a unified mesh network:
-* **Local RAM:** Each individual processor (Processor 1 through 4) is equipped with a dedicated **16Mx64 SDRAM** bank for real-time signal processing algorithms.
-* **Non-Volatile Boot Storage:** A shared **4Mx8 Flash memory** is mapped directly onto the memory space of **Processor 1 (P1)**.
-* **Inter-Board Links:** Each DSP exposes exactly one TigerSHARC Link Port to the external world via front-panel headers (**1-Link3, 2-Link3, 3-Link3, and 4-Link3**), facilitating seamless multi-board cascading.
+The module contains four processor nodes based on the **Analog Devices ADSP-TS201S (TigerSHARC)**.
 
-## 🔀 Host Interfacing and Data Transmission Paths
+| Resource | Manual description |
+|---|---|
+| Processor count | 4 |
+| Processor clock | 500 MHz / 600 MHz variants |
+| System bus clock | 100 MHz |
+| SDRAM | One 128 MB bank per processor |
+| Flash | 4 MB in the technical-data table; 2–4 MB in the processor-node description |
 
-Data transfer between the processing cluster and the Host PC's system PCI bus is mediated by a multi-stage hardware architecture:
+Each processor has access to its own SDRAM bank (MSD0). The manual states that SDRAM must be initialized before first use; the software utility function identified for this purpose is autoSDRAM().
 
-1. **PCI Bus Controller:** Handles physical signaling and protocol alignment with the Host PC's PCI bus.
-2. **HOST FPGA:** Acts as the primary data orchestrator and contains deep hardware buffers to decouple high-speed DSP operations from bus latency:
-   * **DPRAM (4096x32):** Dual-Port RAM for fast shared control registers and state flags.
-   * **FIFO 1 & FIFO 2 (1024x32 each):** Dual independent, unidirectional First-In-First-Out queues that stream high-speed ADC/DAC sample blocks to and from the host memory.
-3. **Cluster Interconnect:** The HOST FPGA links directly to the DSP cluster using a dedicated high-speed link interface connected to **Processor 1 (1-Link0)**.
+## Processor and FPGA connections
+
+The manual explicitly identifies these connections:
+
+- Processor **P1** is connected to the **HOST FPGA**.
+- Processor **P2** is connected to the **ADM FPGA**.
+- The four DSPs communicate through TigerSHARC link ports.
+- Four external link ports are provided, one from each processor.
+
+The ADM FPGA may also be connected to processors P2, P3, and P4 through link ports when the **XC3S1500** device is installed. The manual notes that this capability is not implemented in the standard ADM FPGA firmware.
+
+The manual does not describe the processor interconnect as a generic mesh. Refer to the board block diagram and the link-port diagram in the source documentation for the actual topology.
+
+## HOST subsystem
+
+The HOST FPGA provides programmable resources used by the host computer and DSP software:
+
+- dual-port memory;
+- FIFO buffers;
+- semaphores;
+- host-side control registers;
+- DSP-side control registers.
+
+The ADP201P4 manual refers readers to separate HOST FPGA documentation and a firmware register specification for implementation details. Consequently, this page does not assign unverified capacities or dimensions to the DPRAM and FIFO resources.
+
+## Boot and program loading
+
+According to the manual:
+
+- P1 can be loaded from the HOST computer, Flash, an external link port, or JTAG.
+- The BOOT jumper selects the initial boot mode after reset.
+- P2, P3, and P4 can be loaded through a link port or JTAG.
+- The Deasy Tools loader supports synchronized startup across processors on the module and across ADP201 modules connected through SYNX.
+
+The manual describes a Flash-resident bootstrap program that can configure the ADM FPGA and then transfer control to link-port loading. Exact behavior depends on the board's Flash contents and configuration.
+
+## Inter-module synchronization
+
+The SYNX connector combines ADM synchronization signals (RDY0, RDY1, SYNC0, START_EN, START, ENCODE) with processor-subsystem signals (PINT0#, PINT1#, PINT2#, PRES#). The former are controlled through the ADM FPGA; the latter through the HOST FPGA.
+
+The BARDY library provides the BRD_load() and BRD_start() functions for coordinated loading and startup. The manual warns that programs must be loaded on every module connected through SYNX before synchronized startup.
+
+## Software environment
+
+The manual identifies **VisualDSP++ 4.0** and **Deasy Tools** as the software environment for developing and loading DSP programs. These are historical toolchain references from the source manual, not claims about current vendor support.
