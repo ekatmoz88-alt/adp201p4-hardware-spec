@@ -1,9 +1,10 @@
-name: Deploy GitHub Pages
+name: Deploy ADP201P4 documentation to GitHub Pages
 on:
   push:
     branches: [main]
     paths:
       - "site/**"
+      - "*.md"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 permissions:
