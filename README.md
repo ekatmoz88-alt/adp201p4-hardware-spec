@@ -1,5 +1,7 @@
 # ADP201P4 Signal Processing Module
 
+**Published documentation:** https://ekatmoz88-alt.github.io/adp201p4-hardware-spec/
+
 Source-based technical documentation for the ADP201P4 signal-processing module. This repository is an independently structured documentation sample based on the manual **ADP201P4 Signal Processing Module — Technical Description and Operating Manual**, document **СКУЮ.467459.033 РЭ**.
 
 [Русская версия](./README.ru.md)
