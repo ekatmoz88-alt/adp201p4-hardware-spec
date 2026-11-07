@@ -33,3 +33,8 @@ ADP201P4 is a PCI-based signal-processing module built around four Analog Device
 The documentation distinguishes facts stated in the ADP201P4 manual from details that require companion documents, firmware specifications, board revisions, or hardware inspection. It does not assume a particular ADM daughterboard, firmware implementation, HOST FPGA register map, or optional memory configuration.
 
 The source manual contains a few inconsistent names and editorial errors. These are not silently normalized where they could affect technical meaning. This portfolio sample is a structured, rewritten reference; it is not a reproduction of the source manual.
+
+
+## Tags
+
+`adp201p4` · `dsp` · `hardware-documentation` · `pci` · `tiger-sharc` · `en-ru`
