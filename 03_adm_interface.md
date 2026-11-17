@@ -75,3 +75,7 @@ LVDS is a differential high-speed signaling mode. The port is reconfigured as:
 The connector pin table identifies the differential data lines as `PIO_P[7..0]` and `PIO_N[7..0]`, the differential control input as `CIN_P/CIN_N`, and the differential control output as `COUT_P/COUT_N`. The LVTTL control lines are `ACK_RD` (input) and `PIO_WR` (output).
 
 Refer to the connector page for the pin assignments. Signal roles and direction are described for the documented standard firmware; verify the actual loaded FPGA configuration before integrating a specific ADM submodule.
+
+## ADMX electrical limit
+
+The operating manual states that only ADM submodules that do not generate voltages above +4 V on the ADMX connector signals may be connected. Check the submodule documentation and signal levels before connecting it.
